@@ -15,7 +15,7 @@ export default function QuizApp() {
 
   // ランキング取得
   const fetchLeaderboard = async () => {
-    const { data } = await supabase.from('scores').select('*').order('score', { ascending: false }).limit(10);
+    const { data } = await supabase.from('scores').select('*').order('score', { ascending: false }).limit(20);
     setLeaderboard(data || []);
   };
 
