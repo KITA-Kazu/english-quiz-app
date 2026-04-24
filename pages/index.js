@@ -21,7 +21,9 @@ export default function QuizApp() {
   // クイズ開始
   const startQuiz = async () => {
     const { data } = await supabase.from('questions').select('*');
-    setQuestions(data.sort(() => Math.random() - 0.5)); // ランダムシャッフル
+    // データを取得した瞬間に一度だけシャッフルして保存する
+    const shuffled = [...data].sort(() => Math.random() - 0.5);
+    setQuestions(shuffled);
     setGameState('playing');
     setTimeLeft(120);
     setScore(0);
@@ -81,9 +83,11 @@ export default function QuizApp() {
     );
   }
 
-  if (gameState === 'playing' && questions.length > 0) {
+ if (gameState === 'playing' && questions.length > 0) {
     const q = questions[currentIdx];
-    const choices = [q.correct_answer, q.dummy1, q.dummy2, q.dummy3].sort(() => Math.random() - 0.5);
+    // 選択肢を固定するために、q.choices のようなデータを使うか、
+    // シンプルに今回はシャッフルを外して固定順にします
+    const choices = [q.correct_answer, q.dummy1, q.dummy2, q.dummy3];
     return (
       <div style={{ padding: '20px', textAlign: 'center', fontFamily: 'sans-serif' }}>
         <div style={{ fontSize: '24px', fontWeight: 'bold', color: 'red' }}>残り: {timeLeft}秒</div>
