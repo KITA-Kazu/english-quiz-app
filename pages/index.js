@@ -93,7 +93,7 @@ export default function QuizApp() {
         <h1>English Quiz Ranking</h1>
         <input placeholder="名前を入力" value={userName} onChange={(e) => setUserName(e.target.value)} style={{ padding: '10px', fontSize: '16px' }} />
         <button onClick={startQuiz} style={{ padding: '10px 20px', marginLeft: '10px', fontSize: '16px', cursor: 'pointer' }}>開始！</button>
-        <h2>Top 10 Ranking</h2>
+        <h2>Top 20 Ranking</h2>
         {leaderboard.map((entry, i) => (
           <div key={i}>{entry.username}: {entry.score}点</div>
         ))}
