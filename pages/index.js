@@ -25,7 +25,7 @@ export default function QuizApp() {
     setLeaderboard(data || []);
   };
 
-  // アプリ起動時やレベル切り替え時にランキングを読み込む
+  // 画面起動時やレベル切り替え時にランキングを読み込む
   useEffect(() => {
     if (gameState === 'start' || gameState === 'result') {
       fetchLeaderboard(selectedLevel);
@@ -135,6 +135,23 @@ export default function QuizApp() {
 
         <div style={{ marginTop: '40px' }}>
           <h2 style={{ borderBottom: '2px solid #eee', paddingBottom: '10px' }}>ランキング (Top 20)</h2>
+          
+          {/* レベル切り替えタブ */}
+          <div style={{ marginBottom: '15px' }}>
+            <button 
+              onClick={() => setSelectedLevel(1)} 
+              style={{ marginRight: '10px', padding: '5px 15px', borderRadius: '15px', border: '1px solid #4caf50', background: selectedLevel === 1 ? '#4caf50' : '#fff', color: selectedLevel === 1 ? '#fff' : '#4caf50', cursor: 'pointer' }}
+            >
+              高1の順位
+            </button>
+            <button 
+              onClick={() => setSelectedLevel(3)} 
+              style={{ padding: '5px 15px', borderRadius: '15px', border: '1px solid #f44336', background: selectedLevel === 3 ? '#f44336' : '#fff', color: selectedLevel === 3 ? '#fff' : '#f44336', cursor: 'pointer' }}
+            >
+              高3の順位
+            </button>
+          </div>
+
           <div style={{ textAlign: 'left', background: '#fff', padding: '10px', borderRadius: '10px', boxShadow: '0 2px 5px rgba(0,0,0,0.1)' }}>
             {leaderboard.length > 0 ? (
               leaderboard.map((entry, index) => (
@@ -144,7 +161,7 @@ export default function QuizApp() {
                 </div>
               ))
             ) : (
-              <p style={{ textAlign: 'center', color: '#999' }}>まだデータがありません</p>
+              <p style={{ textAlign: 'center', color: '#999' }}>まだレベル {selectedLevel} のデータがありません</p>
             )}
           </div>
         </div>
@@ -214,7 +231,7 @@ export default function QuizApp() {
 
         {gameState === 'result' ? (
           <div style={{ marginTop: '40px' }}>
-            <h2 style={{ borderBottom: '2px solid #eee', paddingBottom: '10px' }}>最新ランキング</h2>
+            <h2 style={{ borderBottom: '2px solid #eee', paddingBottom: '10px' }}>レベル {selectedLevel} 最新ランキング</h2>
             <div style={{ textAlign: 'left', background: '#f9f9f9', padding: '15px', borderRadius: '10px' }}>
               {leaderboard.map((entry, index) => (
                 <div key={index} style={{ padding: '8px', borderBottom: '1px solid #eee' }}>
