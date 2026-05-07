@@ -58,6 +58,23 @@ export default function QuizApp() {
     }
   }, [timeLeft, gameState]);
 
+useEffect(() => {
+  if (gameState === 'result' || gameState === 'start') {
+    fetchLeaderboard(selectedLevel);
+  }
+}, [gameState, selectedLevel]);
+// --- ここまで追加 ---
+
+useEffect(() => {
+  if (gameState === 'playing' && timeLeft > 0) {
+    const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
+    return () => clearTimeout(timer);
+  } else if (timeLeft === 0 && gameState === 'playing') {
+    setGameState('result');
+    submitScore();
+  }
+}, [timeLeft, gameState]);
+  
   const submitScore = async () => {
     if (userName) {
       await supabase.from('scores').insert([{ username: userName, score: score, level: selectedLevel }]);
